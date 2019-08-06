@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -8,6 +9,8 @@ import (
 	"github.com/gorilla/mux"
 )
 
+// Movie("The notebook", "2004", "Nick Cassavetes")
+// }
 func main() {
 
 	router := mux.NewRouter().StrictSlash(true)
@@ -35,9 +38,16 @@ func contact(w http.ResponseWriter, r *http.Request) {
 }
 
 func movieList(w http.ResponseWriter, r *http.Request) {
+	movies := Movies{
+		Movie{"TItanic", "1997", "James Cameron"},
+		Movie{"Avengers", "2012", "Anthony Rosso"},
+		Movie{"The notebook", "2004", "Nick Cassavetes"},
+	}
 
-	fmt.Fprintf(w, "Building movie list")
+	// fmt.Fprintf(w, "Building movie list")
+	json.NewEncoder(w).Encode(movies)
 }
+
 func movieShow(w http.ResponseWriter, r *http.Request) {
 
 	params := mux.Vars(r)
